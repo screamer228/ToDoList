@@ -1,12 +1,11 @@
 package com.example.todolist
 
-import android.app.Activity
 import android.app.Dialog
-import android.content.ClipDescription
 import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import com.example.todolist.MainActivity
 
 class CustomDialog(context: Context) : Dialog(context) {
 //    constructor(context: Context, themeResId: Int) : super(context, themeResId)
@@ -27,16 +26,16 @@ class CustomDialog(context: Context) : Dialog(context) {
         inputFieldDescription = findViewById(R.id.input_field_description)
         inputFieldTime = findViewById(R.id.input_field_time)
 
+        //val activity = MainActivity
+
         okButton.setOnClickListener {
             val inputTitleResult = inputFieldTitle.text.toString()
             val inputDescriptionResult = inputFieldTitle.text.toString()
-            val inputTimeResult = inputFieldTitle.text.toString()
+            val inputTimeResult = inputFieldTitle.text.toString().toInt()
             //activity.addItem(ToDoItem(0,inputTitleResult, inputDescriptionResult, inputTimeResult))
         }
-
         closeButton.setOnClickListener {
             dismiss()
         }
     }
-
 }

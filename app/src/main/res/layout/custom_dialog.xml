@@ -31,7 +31,8 @@
             android:layout_width="270dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:hint="Время"/>
+            android:hint="Время, мин"
+            android:inputType="number"/>
 
         <LinearLayout
             android:layout_width="match_parent"
