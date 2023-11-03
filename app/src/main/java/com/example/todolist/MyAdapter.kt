@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MyAdapter(private val dataList: List<ToDoItem>) :
+class MyAdapter(private var mList: MutableList<ToDoItem>) :
     RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -21,13 +21,15 @@ class MyAdapter(private val dataList: List<ToDoItem>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = dataList[position]
-        holder.titleTextView.text = item.title
-        holder.descriptionTextView.text = item.description
-        holder.timeTextView.text = item.time.toString()
+        holder.titleTextView.text = mList[position].title
+        holder.descriptionTextView.text = mList[position].description
+        holder.timeTextView.text = mList[position].time.toString()
     }
-
+    fun updateList(updatedList: List<ToDoItem>){
+        mList = updatedList.toMutableList()
+        notifyDataSetChanged()
+    }
     override fun getItemCount(): Int {
-        return dataList.size
+        return mList.size
     }
 }

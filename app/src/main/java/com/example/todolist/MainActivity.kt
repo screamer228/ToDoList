@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -16,7 +18,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var fab: FloatingActionButton
     private lateinit var plug: LinearLayout
+    private lateinit var adapter: MyAdapter
     private lateinit var db: AppDatabase
+    private lateinit var todoLiveData: LiveData<List<ToDoItem>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,33 +31,37 @@ class MainActivity : AppCompatActivity() {
         plug = findViewById(R.id.main_plug)
 
         fab.setOnClickListener {
-            val dialog = CustomDialog(this)
+            val dialog = CustomDialog(this, this)
             dialog.show()
         }
 
-        val data = ArrayList<ToDoItem>()
-
-        if (data.isEmpty()){
-            plug.visibility = VISIBLE
-            recyclerView.visibility = INVISIBLE
-        }
-        else {
-            plug.visibility = INVISIBLE
-            recyclerView.visibility = VISIBLE
-        }
-
-        val myAdapter = MyAdapter(data)
-
-        recyclerView.adapter = myAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        adapter = MyAdapter(mutableListOf())
+        recyclerView.adapter = adapter
 
         db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name"
         ).allowMainThreadQueries().build()
 
-        fun addItem(item: ToDoItem){
-            plug.visibility = INVISIBLE
-            recyclerView.visibility = VISIBLE
-            db.userDao().insertItem(item)
-        }
+        todoLiveData = db.todoDao().getAllItems()
+
+        todoLiveData.observe(this, Observer {
+            adapter.updateList(it)
+
+            if (it.isEmpty()){
+                plug.visibility = VISIBLE
+                recyclerView.visibility = INVISIBLE
+            }
+            else {
+                plug.visibility = INVISIBLE
+                recyclerView.visibility = VISIBLE
+            }
+        })
+    }
+
+    fun addItem(item: ToDoItem){
+        plug.visibility = INVISIBLE
+        recyclerView.visibility = VISIBLE
+        db.todoDao().insertItem(item)
     }
 }

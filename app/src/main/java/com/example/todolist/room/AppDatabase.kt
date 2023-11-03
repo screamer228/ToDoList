@@ -6,5 +6,5 @@ import com.example.todolist.ToDoItem
 
 @Database (entities = [ToDoItem::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): ToDoDao
+    abstract fun todoDao(): ToDoDao
 }

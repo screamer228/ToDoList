@@ -5,10 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import com.example.todolist.MainActivity
 
-class CustomDialog(context: Context) : Dialog(context) {
-//    constructor(context: Context, themeResId: Int) : super(context, themeResId)
+class CustomDialog(private val activity: MainActivity, context: Context) : Dialog(context) {
 
     private lateinit var okButton: Button
     private lateinit var closeButton: Button
@@ -26,13 +24,13 @@ class CustomDialog(context: Context) : Dialog(context) {
         inputFieldDescription = findViewById(R.id.input_field_description)
         inputFieldTime = findViewById(R.id.input_field_time)
 
-        //val activity = MainActivity
-
         okButton.setOnClickListener {
             val inputTitleResult = inputFieldTitle.text.toString()
-            val inputDescriptionResult = inputFieldTitle.text.toString()
-            val inputTimeResult = inputFieldTitle.text.toString().toInt()
-            //activity.addItem(ToDoItem(0,inputTitleResult, inputDescriptionResult, inputTimeResult))
+            val inputDescriptionResult = inputFieldDescription.text.toString()
+            val inputTimeResult = inputFieldTime.text.toString().toInt()
+            val newItem = ToDoItem(inputTitleResult, inputDescriptionResult, inputTimeResult)
+            activity.addItem(newItem)
+            dismiss()
         }
         closeButton.setOnClickListener {
             dismiss()
