@@ -13,7 +13,7 @@ import androidx.room.Room
 import com.example.todolist.room.AppDatabase
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnItemClicked {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var fab: FloatingActionButton
@@ -47,16 +47,19 @@ class MainActivity : AppCompatActivity() {
 
         todoLiveData.observe(this, Observer {
             adapter.updateList(it)
-
-            if (it.isEmpty()){
-                plug.visibility = VISIBLE
-                recyclerView.visibility = INVISIBLE
-            }
-            else {
-                plug.visibility = INVISIBLE
-                recyclerView.visibility = VISIBLE
-            }
+            screenDataValidation(it)
         })
+    }
+
+    private fun screenDataValidation(list: List<ToDoItem>) {
+        if (list.isEmpty()){
+            plug.visibility = VISIBLE
+            recyclerView.visibility = INVISIBLE
+        }
+        else {
+            plug.visibility = INVISIBLE
+            recyclerView.visibility = VISIBLE
+        }
     }
 
     fun addItem(item: ToDoItem){
@@ -64,4 +67,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView.visibility = VISIBLE
         db.todoDao().insertItem(item)
     }
+
+    override fun itemClicked(item: ToDoItem) {
+        TODO("Not yet implemented")
+    }
+
 }
