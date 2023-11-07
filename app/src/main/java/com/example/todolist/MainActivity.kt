@@ -31,13 +31,13 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         plug = findViewById(R.id.main_plug)
 
         fab.setOnClickListener {
-            val dialog = CustomDialog(this, this)
+            val dialog = CustomDialog(this, true, null)
             dialog.show()
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        adapter = MyAdapter(mutableListOf())
+        adapter = MyAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
         db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name"
@@ -68,8 +68,13 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         db.todoDao().insertItem(item)
     }
 
+    fun updateItem(item: ToDoItem){
+        db.todoDao().updateItem(item)
+    }
+
     override fun itemClicked(item: ToDoItem) {
-        TODO("Not yet implemented")
+        val dialog = CustomDialog(this, false, item)
+        dialog.show()
     }
 
 }
