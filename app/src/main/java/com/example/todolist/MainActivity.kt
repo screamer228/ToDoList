@@ -1,11 +1,18 @@
 package com.example.todolist
 
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -55,6 +62,13 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
             screenDataValidation(it)
         })
 
+        val deleteIcon = ContextCompat.getDrawable(this, R.drawable.baseline_remove_circle_outline_24)
+        val intrinsicWidth = deleteIcon?.intrinsicWidth
+        val intrinsicHeight = deleteIcon?.intrinsicHeight
+        val background = ColorDrawable()
+        val backgroundColor = Color.parseColor("#f44336")
+        val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
+
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -66,11 +80,40 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                 return false
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            override fun onChildDraw(canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                                     dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                val itemView = viewHolder.itemView
+                val itemHeight = itemView.bottom - itemView.top
+
+                // Draw the red delete background
+                background.color = backgroundColor
+                background.setBounds(
+                    itemView.right + dX.toInt(),
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom
+                )
+                background.draw(canvas)
+
+                // Calculate position of delete icon
+                val iconTop = itemView.top + (itemHeight - intrinsicHeight!!) / 2
+                val iconMargin = (itemHeight - intrinsicHeight) / 2
+                val iconLeft = itemView.right - iconMargin - intrinsicWidth!!
+                val iconRight = itemView.right - iconMargin
+                val iconBottom = iconTop + intrinsicHeight
+
+                // Draw the delete icon
+                deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+                deleteIcon.draw(canvas)
+
+                super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // this method is called when we swipe our item to right direction.
                 // on below line we are getting the item at a particular position.
                 val deletedItem: ToDoItem =
-                    data.get(viewHolder.adapterPosition)
+                    data[viewHolder.adapterPosition]
 
                 // below line is to get the position
                 // of the item at that position.
