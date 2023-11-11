@@ -10,8 +10,8 @@ data class ToDoItem(
     @PrimaryKey(autoGenerate = true) var id: Int,
     @ColumnInfo (name = "titleColumn") val title : String,
     val description : String,
-    val time : Int
+    var isChecked: Boolean = false
 ) {
     @Ignore
-constructor(title: String, description: String, time: Int) : this(0, title, description, time)
+constructor(title: String, description: String) : this(0, title, description)
 }

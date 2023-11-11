@@ -6,12 +6,12 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         recyclerView.adapter = adapter
 
         db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name"
-        ).allowMainThreadQueries().build()
+        ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
         todoLiveData = db.todoDao().getAllItems()
 
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
             screenDataValidation(it)
         })
 
-        val deleteIcon = ContextCompat.getDrawable(this, R.drawable.baseline_remove_circle_outline_24)
+        val deleteIcon = ContextCompat.getDrawable(this, R.drawable.swipe_remove_icon)
         val intrinsicWidth = deleteIcon?.intrinsicWidth
         val intrinsicHeight = deleteIcon?.intrinsicHeight
         val background = ColorDrawable()
@@ -75,8 +75,6 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                // this method is called
-                // when the item is moved.
                 return false
             }
 
@@ -85,7 +83,6 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                 val itemView = viewHolder.itemView
                 val itemHeight = itemView.bottom - itemView.top
 
-                // Draw the red delete background
                 background.color = backgroundColor
                 background.setBounds(
                     itemView.right + dX.toInt(),
@@ -95,58 +92,35 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                 )
                 background.draw(canvas)
 
-                // Calculate position of delete icon
                 val iconTop = itemView.top + (itemHeight - intrinsicHeight!!) / 2
                 val iconMargin = (itemHeight - intrinsicHeight) / 2
                 val iconLeft = itemView.right - iconMargin - intrinsicWidth!!
                 val iconRight = itemView.right - iconMargin
                 val iconBottom = iconTop + intrinsicHeight
 
-                // Draw the delete icon
                 deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
                 deleteIcon.draw(canvas)
 
                 super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                // this method is called when we swipe our item to right direction.
-                // on below line we are getting the item at a particular position.
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
                 val deletedItem: ToDoItem =
                     data[viewHolder.adapterPosition]
 
-                // below line is to get the position
-                // of the item at that position.
                 val position = viewHolder.adapterPosition
 
-                // this method is called when item is swiped.
-                // below line is to remove item from our array list.
                 data.toMutableList().removeAt(viewHolder.adapterPosition)
-
-                // below line is to notify our item is removed from adapter.
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
-                // below line is to display our snackbar with action.
-                // below line is to display our snackbar with action.
-                // below line is to display our snackbar with action.
                 Snackbar.make(recyclerView, "Удалено " + deletedItem.title, Snackbar.LENGTH_LONG)
-                    .setAction(
-                        "Вернуть",
-                        View.OnClickListener {
-                            // adding on click listener to our action of snack bar.
-                            // below line is to add our item to array list with a position.
-                            data.toMutableList().add(position, deletedItem)
-
-                            // below line is to notify item is
-                            // added to our adapter class.
-                            adapter.notifyItemInserted(position)
-                        }).show()
-                    deleteItem(deletedItem)
+                    .setAction("Отменить", View.OnClickListener { data.toMutableList().add(position, deletedItem)
+                        adapter.notifyItemInserted(position)
+                    }).show()
+                deleteItem(deletedItem)
             }
-            // at last we are adding this
-            // to our recycler view.
         }).attachToRecyclerView(recyclerView)
-
     }
 
     private fun screenDataValidation(list: List<ToDoItem>) {
@@ -178,5 +152,4 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         val dialog = CustomDialog(this, false, item)
         dialog.show()
     }
-
 }

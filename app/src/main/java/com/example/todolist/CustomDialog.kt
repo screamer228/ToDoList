@@ -13,7 +13,6 @@ class CustomDialog(private val activity: MainActivity, private val isNewItem: Bo
     private lateinit var closeButton: Button
     private lateinit var inputFieldTitle: EditText
     private lateinit var inputFieldDescription: EditText
-    private lateinit var inputFieldTime: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +23,6 @@ class CustomDialog(private val activity: MainActivity, private val isNewItem: Bo
         closeButton = findViewById(R.id.close_button)
         inputFieldTitle = findViewById(R.id.input_field_title)
         inputFieldDescription = findViewById(R.id.input_field_description)
-        inputFieldTime = findViewById(R.id.input_field_time)
 
         if (isNewItem) {
             inputFieldTitle.requestFocus()
@@ -55,15 +53,13 @@ class CustomDialog(private val activity: MainActivity, private val isNewItem: Bo
     private fun okAddItemBeenClicked() {
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
-        val inputTimeResult = inputFieldTime.text.toString().toInt()
-        activity.addItem(ToDoItem(inputTitleResult, inputDescriptionResult, inputTimeResult))
+        activity.addItem(ToDoItem(inputTitleResult, inputDescriptionResult))
     }
 
     private fun okUpdateItemBeenClicked() {
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
-        val inputTimeResult = inputFieldTime.text.toString().toInt()
-        item?.let { ToDoItem(it.id, inputTitleResult, inputDescriptionResult, inputTimeResult) }
+        item?.let { ToDoItem(it.id, inputTitleResult, inputDescriptionResult) }
             ?.let { activity.updateItem(it) }
     }
 
@@ -71,8 +67,5 @@ class CustomDialog(private val activity: MainActivity, private val isNewItem: Bo
         dialogTitle.text = "Редактировать"
         inputFieldTitle.setText(item?.title)
         inputFieldDescription.setText(item?.description)
-        inputFieldTime.setText(item?.time.toString())
-
     }
-
 }
