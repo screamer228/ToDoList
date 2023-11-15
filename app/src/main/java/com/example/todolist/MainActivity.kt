@@ -51,7 +51,8 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         adapter = MyAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
-        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name"
+        db = Room.databaseBuilder(
+            applicationContext, AppDatabase::class.java, "database-name"
         ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
         todoLiveData = db.todoDao().getAllItems()
@@ -78,8 +79,10 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                 return false
             }
 
-            override fun onChildDraw(canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                     dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            override fun onChildDraw(
+                canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
+            ) {
                 val itemView = viewHolder.itemView
                 val itemHeight = itemView.bottom - itemView.top
 
@@ -101,7 +104,15 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                 deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
                 deleteIcon.draw(canvas)
 
-                super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                super.onChildDraw(
+                    canvas,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -115,7 +126,9 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                 adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
                 Snackbar.make(recyclerView, "Удалено " + deletedItem.title, Snackbar.LENGTH_LONG)
-                    .setAction("Отменить", View.OnClickListener { data.toMutableList().add(position, deletedItem)
+                    .setAction(getString(R.string.undo), View.OnClickListener {
+                        data.toMutableList().add(position, deletedItem)
+                        addItem(deletedItem)
                         adapter.notifyItemInserted(position)
                     }).show()
                 deleteItem(deletedItem)
