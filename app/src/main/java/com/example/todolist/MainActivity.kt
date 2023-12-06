@@ -117,19 +117,22 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-                val deletedItem: ToDoItem =
-                    data[viewHolder.adapterPosition]
-
                 val position = viewHolder.adapterPosition
+                val deletedItem: ToDoItem =
+                    data[position]
 
-                data.toMutableList().removeAt(viewHolder.adapterPosition)
-                adapter.notifyItemRemoved(viewHolder.adapterPosition)
+                adapter.deleteItem(position)
+
+//                data.toMutableList().removeAt(position)
+//                adapter.notifyItemRemoved(position)
 
                 Snackbar.make(recyclerView, "Удалено " + deletedItem.title, Snackbar.LENGTH_LONG)
                     .setAction(getString(R.string.undo), View.OnClickListener {
-                        data.toMutableList().add(position, deletedItem)
+                        adapter.restoreItem(position, deletedItem)
+                        //data.toMutableList().add(position, deletedItem)
                         addItem(deletedItem)
-                        adapter.notifyItemInserted(position)
+                        //adapter.notifyItemInserted(position)
+
                     }).show()
                 deleteItem(deletedItem)
             }

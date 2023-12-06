@@ -3,7 +3,6 @@ package com.example.todolist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,7 @@ class MyAdapter(private var mList: MutableList<ToDoItem>, private val click: OnI
         val titleTextView: TextView = itemView.findViewById(R.id.item_title)
         val descriptionTextView: TextView = itemView.findViewById(R.id.item_description)
         val itemContainer: LinearLayout = itemView.findViewById(R.id.item_container)
-        val itemCheckbox: CheckBox = itemView.findViewById(R.id.item_checkbox)
+        //val itemCheckbox: CheckBox = itemView.findViewById(R.id.item_checkbox)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,22 +23,30 @@ class MyAdapter(private var mList: MutableList<ToDoItem>, private val click: OnI
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.titleTextView.text = mList[position].title
-        holder.descriptionTextView.text = mList[position].description
         val currentItem = mList[position]
+        holder.titleTextView.text = currentItem.title
+        holder.descriptionTextView.text = currentItem.description
 
         holder.itemContainer.setOnClickListener {
-            click.itemClicked(mList[position])
+            click.itemClicked(currentItem)
         }
 
-        holder.itemCheckbox.isChecked = PreferencesManager.loadCheckboxState(holder.itemView.context, position)
-
-        holder.itemCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            currentItem.isChecked = isChecked
-            PreferencesManager.saveCheckboxState(holder.itemView.context, position, isChecked)
-        }
+//        holder.itemCheckbox.isChecked = PreferencesManager.loadCheckboxState(holder.itemView.context, position)
+//
+//        holder.itemCheckbox.setOnCheckedChangeListener { _, isChecked ->
+//            currentItem.isChecked = isChecked
+//            PreferencesManager.saveCheckboxState(holder.itemView.context, position, isChecked)
+//        }
     }
 
+    fun deleteItem(position: Int) {
+        mList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+    fun restoreItem(position: Int, item: ToDoItem) {
+        mList.add(position, item)
+        notifyItemInserted(position)
+    }
     fun updateList(updatedList: List<ToDoItem>){
         mList = updatedList.toMutableList()
         notifyDataSetChanged()
