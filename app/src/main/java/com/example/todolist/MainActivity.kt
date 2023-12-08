@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         plug = findViewById(R.id.main_plug)
 
         fab.setOnClickListener {
-            val dialog = CustomDialog(this, true, null)
-            dialog.show()
+            val dialogFragment = DialogFragment(this, true, null)
+            dialogFragment.show(supportFragmentManager, "Dialog Fragment")
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
     }
 
     override fun itemClicked(item: ToDoItem) {
-        val dialog = CustomDialog(this, false, item)
-        dialog.show()
+        val dialogFragment = DialogFragment(this, false, item)
+        dialogFragment.show(supportFragmentManager, "Dialog Fragment")
     }
 }
