@@ -10,8 +10,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 
 class DialogFragment(private val activity: MainActivity, private val isNewItem: Boolean, private val item: ToDoItem?) : DialogFragment() {
+
+    val mMainViewModel : MainViewModel by activityViewModels()
+    val mDialogViewModel : DialogViewModel by activityViewModels()
 
     private var shouldClearPrefs = false
 
