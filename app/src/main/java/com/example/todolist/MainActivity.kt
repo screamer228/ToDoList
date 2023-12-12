@@ -7,6 +7,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -27,14 +28,14 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), OnItemClicked {
 
-    val mMainViewModel : MainViewModel by viewModels()
+    private val mMainViewModel : MainViewModel by viewModels()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var fab: FloatingActionButton
     private lateinit var plug: LinearLayout
     private lateinit var adapter: MyAdapter
-    private lateinit var db: AppDatabase
-    private lateinit var todoLiveData: LiveData<List<ToDoItem>>
+//    private lateinit var db: AppDatabase
+//    private lateinit var todoLiveData: LiveData<List<ToDoItem>>
     private lateinit var data: List<ToDoItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,16 +56,15 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         adapter = MyAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
-        db = Room.databaseBuilder(
-            applicationContext, AppDatabase::class.java, "database-name"
-        ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
-
-        todoLiveData = db.todoDao().getAllItems()
-
-        todoLiveData.observe(this, Observer {
+        mMainViewModel.getAllData()
+        val tdir = mMainViewModel.todoItemListResult
+        Log.d("listCheck", "$tdir")
+        mMainViewModel.todoItemListResult.observe(this, Observer {
+            Log.d("roomCheck", "$it")
             data = it
             adapter.updateList(it)
             screenDataValidation(it)
+            //Log.d("roomCheck", "$it")
         })
 
         val deleteIcon = ContextCompat.getDrawable(this, R.drawable.swipe_remove_icon)
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                     .setAction(getString(R.string.undo), View.OnClickListener {
                         adapter.restoreItem(position, deletedItem)
                         //data.toMutableList().add(position, deletedItem)
-                        addItem(deletedItem)
+                        insertItem(deletedItem)
                         //adapter.notifyItemInserted(position)
 
                     }).show()
@@ -154,22 +154,29 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         }
     }
 
-    fun addItem(item: ToDoItem){
+    fun insertItem(item: ToDoItem){
         plug.visibility = INVISIBLE
         recyclerView.visibility = VISIBLE
-        db.todoDao().insertItem(item)
+        mMainViewModel.insertItem(item)
     }
 
     fun updateItem(item: ToDoItem){
-        db.todoDao().updateItem(item)
+        mMainViewModel.updateItem(item)
     }
 
     fun deleteItem(item: ToDoItem){
-        db.todoDao().deleteItem(item)
+        mMainViewModel.deleteItem(item)
     }
 
     override fun itemClicked(item: ToDoItem) {
         val dialogFragment = DialogFragment(this, false, item)
         dialogFragment.show(supportFragmentManager, "Dialog Fragment")
+    }
+
+    override fun onDestroy() {
+        // Убедитесь, что нет явной отписки от LiveData
+        mMainViewModel.todoItemListResult.removeObservers(this)
+
+        super.onDestroy()
     }
 }

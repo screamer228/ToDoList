@@ -1,5 +1,6 @@
 package com.example.todolist
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,6 @@ class MyAdapter(private var mList: MutableList<ToDoItem>, private val click: OnI
         holder.itemContainer.setOnClickListener {
             click.itemClicked(currentItem)
         }
-
 //        holder.itemCheckbox.isChecked = PreferencesManager.loadCheckboxState(holder.itemView.context, position)
 //
 //        holder.itemCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -47,7 +47,7 @@ class MyAdapter(private var mList: MutableList<ToDoItem>, private val click: OnI
         mList.add(position, item)
         notifyItemInserted(position)
     }
-    fun updateList(updatedList: List<ToDoItem>){
+    fun updateList(updatedList: List<ToDoItem>) {
         mList = updatedList.toMutableList()
         notifyDataSetChanged()
     }

@@ -14,7 +14,7 @@ import androidx.fragment.app.activityViewModels
 
 class DialogFragment(private val activity: MainActivity, private val isNewItem: Boolean, private val item: ToDoItem?) : DialogFragment() {
 
-    val mMainViewModel : MainViewModel by activityViewModels()
+    private val mMainViewModel : MainViewModel by activityViewModels()
     val mDialogViewModel : DialogViewModel by activityViewModels()
 
     private var shouldClearPrefs = false
@@ -36,27 +36,11 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
         initViews(view)
 
         if (isNewItem) {
-
-            val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
-            val titleFromPrefs = sharedPref.getString("titleKey", "")
-            val descriptionFromPrefs = sharedPref.getString("descriptionKey", "")
-            inputFieldTitle.setText(titleFromPrefs)
-            inputFieldDescription.setText(descriptionFromPrefs)
-
-            //inputFieldTitle.requestFocus()
+            createNewItem()
         }
         else {
             updateExistingItem()
         }
-
-        okButton.setOnClickListener {
-            okButtonClicker()
-        }
-
-        closeButton.setOnClickListener {
-            dismiss()
-        }
-
         return view
     }
 
@@ -66,6 +50,26 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
         closeButton = view.findViewById(R.id.close_button)
         inputFieldTitle = view.findViewById(R.id.input_field_title)
         inputFieldDescription = view.findViewById(R.id.input_field_description)
+        okButton.setOnClickListener {
+            okButtonClicker()
+        }
+        closeButton.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    private fun createNewItem() {
+        val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
+        val titleFromPrefs = sharedPref.getString("titleKey", "")
+        val descriptionFromPrefs = sharedPref.getString("descriptionKey", "")
+        inputFieldTitle.setText(titleFromPrefs)
+        inputFieldDescription.setText(descriptionFromPrefs)
+    }
+
+    private fun updateExistingItem() {
+        dialogTitle.text = "Редактировать"
+        inputFieldTitle.setText(item?.title)
+        inputFieldDescription.setText(item?.description)
     }
 
     private fun okButtonClicker() {
@@ -91,7 +95,7 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
 
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
-        activity.addItem(ToDoItem(inputTitleResult, inputDescriptionResult))
+        activity.insertItem(ToDoItem(inputTitleResult, inputDescriptionResult))
     }
 
     private fun okUpdateItemBeenClicked() {
@@ -99,12 +103,6 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
         val inputDescriptionResult = inputFieldDescription.text.toString()
         item?.let { ToDoItem(it.id, inputTitleResult, inputDescriptionResult) }
             ?.let { activity.updateItem(it) }
-    }
-
-    private fun updateExistingItem() {
-        dialogTitle.text = "Редактировать"
-        inputFieldTitle.setText(item?.title)
-        inputFieldDescription.setText(item?.description)
     }
 
     override fun onStop() {
