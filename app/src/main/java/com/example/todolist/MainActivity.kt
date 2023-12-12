@@ -15,14 +15,10 @@ import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
-import com.example.todolist.room.AppDatabase
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -59,12 +55,12 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         mMainViewModel.getAllData()
         val tdir = mMainViewModel.todoItemListResult
         Log.d("listCheck", "$tdir")
+
         mMainViewModel.todoItemListResult.observe(this, Observer {
-            Log.d("roomCheck", "$it")
             data = it
             adapter.updateList(it)
             screenDataValidation(it)
-            //Log.d("roomCheck", "$it")
+            Log.d("roomCheck", "$it")
         })
 
         val deleteIcon = ContextCompat.getDrawable(this, R.drawable.swipe_remove_icon)
@@ -127,18 +123,18 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
 
                 adapter.deleteItem(position)
 
-//                data.toMutableList().removeAt(position)
-//                adapter.notifyItemRemoved(position)
+                //data.toMutableList().removeAt(position)
+                //adapter.notifyItemRemoved(position)
 
                 Snackbar.make(recyclerView, "Удалено " + deletedItem.title, Snackbar.LENGTH_LONG)
                     .setAction(getString(R.string.undo), View.OnClickListener {
                         adapter.restoreItem(position, deletedItem)
                         //data.toMutableList().add(position, deletedItem)
-                        insertItem(deletedItem)
+                        mMainViewModel.insertItem(deletedItem)
                         //adapter.notifyItemInserted(position)
 
                     }).show()
-                deleteItem(deletedItem)
+                mMainViewModel.deleteItem(deletedItem)
             }
         }).attachToRecyclerView(recyclerView)
     }
@@ -154,29 +150,8 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         }
     }
 
-    fun insertItem(item: ToDoItem){
-        plug.visibility = INVISIBLE
-        recyclerView.visibility = VISIBLE
-        mMainViewModel.insertItem(item)
-    }
-
-    fun updateItem(item: ToDoItem){
-        mMainViewModel.updateItem(item)
-    }
-
-    fun deleteItem(item: ToDoItem){
-        mMainViewModel.deleteItem(item)
-    }
-
     override fun itemClicked(item: ToDoItem) {
         val dialogFragment = DialogFragment(this, false, item)
         dialogFragment.show(supportFragmentManager, "Dialog Fragment")
-    }
-
-    override fun onDestroy() {
-        // Убедитесь, что нет явной отписки от LiveData
-        mMainViewModel.todoItemListResult.removeObservers(this)
-
-        super.onDestroy()
     }
 }

@@ -16,7 +16,6 @@ class MainViewModel(app : Application) : AndroidViewModel(app) {
     fun getAllData() {
         val result = roomManager.getAllItems()
         todoItemList.postValue(result)
-        //todoItemListResult = todoItemList
     }
     fun insertItem(item: ToDoItem) {
         todoItemList.value.let{

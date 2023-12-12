@@ -1,16 +1,15 @@
 package com.example.todolist.data
 
-import android.content.Context
-import androidx.lifecycle.LiveData
+import android.app.Application
 import androidx.room.Room
 import com.example.todolist.RoomManager
 import com.example.todolist.ToDoItem
 import com.example.todolist.room.AppDatabase
 
-class RoomManagerImpl(private val context : Context) : RoomManager {
+class RoomManagerImpl(app : Application) : RoomManager {
 
     private var db = Room.databaseBuilder(
-        context,
+        app,
         AppDatabase::class.java,
         "database-name"
     )
