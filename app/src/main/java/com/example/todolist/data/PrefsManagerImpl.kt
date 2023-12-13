@@ -8,11 +8,11 @@ import com.example.todolist.ToDoItem
 
 class PrefsManagerImpl(app : Application) : PrefsManager {
 
-    private val sharedPref : SharedPreferences = app.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+    private val sharedPref : SharedPreferences = app.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     override fun getToDoItem() : ToDoItem {
-        val title = sharedPref.getString("titleKey", "") ?: ""
-        val description = sharedPref.getString("descriptionKey", "") ?: ""
+        val title = sharedPref.getString(PREFS_TITLE_KEY, PREFS_DEFAULT_VALUE) ?: PREFS_DEFAULT_VALUE
+        val description = sharedPref.getString(PREFS_DESCRIPTION_KEY, PREFS_DEFAULT_VALUE) ?: PREFS_DEFAULT_VALUE
         return ToDoItem(title, description)
     }
 
@@ -23,4 +23,10 @@ class PrefsManagerImpl(app : Application) : PrefsManager {
         }
     }
 
+    companion object {
+        const val PREFS_TITLE_KEY = "titleKey"
+        const val PREFS_DESCRIPTION_KEY = "descriptionKey"
+        const val PREFS_NAME = "preferences"
+        const val PREFS_DEFAULT_VALUE = ""
+    }
 }

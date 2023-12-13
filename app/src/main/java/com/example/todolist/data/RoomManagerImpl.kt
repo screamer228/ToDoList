@@ -11,7 +11,7 @@ class RoomManagerImpl(app : Application) : RoomManager {
     private var db = Room.databaseBuilder(
         app,
         AppDatabase::class.java,
-        "database-name"
+        DATABASE_NAME
     )
         .allowMainThreadQueries()
         .fallbackToDestructiveMigration()
@@ -28,5 +28,9 @@ class RoomManagerImpl(app : Application) : RoomManager {
     }
     override fun deleteItem(item: ToDoItem) {
         db.todoDao().deleteItem(item)
+    }
+
+    companion object{
+        private const val DATABASE_NAME = "database-name"
     }
 }

@@ -10,7 +10,7 @@ class MainViewModel(app : Application) : AndroidViewModel(app) {
 
     private val roomManager : RoomManager = RoomManagerImpl(app)
 
-    private val todoItemList : MutableLiveData<List<ToDoItem>> = MutableLiveData()
+    private var todoItemList : MutableLiveData<List<ToDoItem>> = MutableLiveData()
     val todoItemListResult : LiveData<List<ToDoItem>> = todoItemList
 
     fun getAllData() {
@@ -18,22 +18,15 @@ class MainViewModel(app : Application) : AndroidViewModel(app) {
         todoItemList.postValue(result)
     }
     fun insertItem(item: ToDoItem) {
-        todoItemList.value.let{
-            todoItemList.postValue(it?.plus(item))
-        }
         roomManager.insertItem(item)
+        getAllData()
     }
     fun updateItem(item: ToDoItem) {
-        todoItemList.value.let {
-            todoItemList.postValue(it)
-
-        }
         roomManager.updateItem(item)
+        getAllData()
     }
     fun deleteItem(item: ToDoItem) {
-        todoItemList.value.let{
-            todoItemList.postValue(it?.minus(item))
-        }
         roomManager.deleteItem(item)
+        getAllData()
     }
 }

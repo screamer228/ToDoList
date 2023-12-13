@@ -10,11 +10,13 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.example.todolist.data.PrefsManagerImpl.Companion.PREFS_DESCRIPTION_KEY
+import com.example.todolist.data.PrefsManagerImpl.Companion.PREFS_TITLE_KEY
 
-class DialogFragment(private val activity: MainActivity, private val isNewItem: Boolean, private val item: ToDoItem?) : DialogFragment() {
+class DialogFragment(private val isNewItem: Boolean, private val item: ToDoItem?) : DialogFragment() {
 
-    private val mMainViewModel: MainViewModel by activityViewModels()
-    private val mDialogViewModel: DialogViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val dialogViewModel: DialogViewModel by activityViewModels()
 
     private var shouldClearPrefs = false
 
@@ -33,25 +35,21 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
         val view: View = inflater.inflate(R.layout.custom_dialog, container, false)
 
         initViews(view)
+        clickListeners()
 
         if (isNewItem) {
-            createNewItem()
+            dialogViewModel.getToDoItemFromPrefs()
         } else {
-            updateExistingItem()
+            dialogTitle.text = "Редактировать"
+            inputFieldTitle.setText(item?.title)
+            inputFieldDescription.setText(item?.description)
         }
         return view
     }
 
     override fun onResume() {
         super.onResume()
-        mDialogViewModel.todoItemResult.observe(this, Observer {
-            if (isNewItem) {
-                //if (!shouldClearPrefs) {
-                    inputFieldTitle.setText(it.title)
-                    inputFieldDescription.setText(it.description)
-                //}
-            }
-        })
+        observers()
     }
 
     private fun initViews(view: View) {
@@ -60,6 +58,9 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
         closeButton = view.findViewById(R.id.close_button)
         inputFieldTitle = view.findViewById(R.id.input_field_title)
         inputFieldDescription = view.findViewById(R.id.input_field_description)
+    }
+
+    private fun clickListeners() {
         okButton.setOnClickListener {
             okButtonClicker()
         }
@@ -68,14 +69,15 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
         }
     }
 
-    private fun createNewItem() {
-        mDialogViewModel.getToDoItemFromPrefs()
-    }
-
-    private fun updateExistingItem() {
-        dialogTitle.text = "Редактировать"
-        inputFieldTitle.setText(item?.title)
-        inputFieldDescription.setText(item?.description)
+    private fun observers() {
+        dialogViewModel.todoItemResult.observe(this, Observer {
+            if (isNewItem) {
+                //if (!shouldClearPrefs) {
+                inputFieldTitle.setText(it.title)
+                inputFieldDescription.setText(it.description)
+                //}
+            }
+        })
     }
 
     private fun okButtonClicker() {
@@ -92,7 +94,7 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
 
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
-        mMainViewModel.insertItem(ToDoItem(inputTitleResult, inputDescriptionResult))
+        mainViewModel.insertItem(ToDoItem(inputTitleResult, inputDescriptionResult))
         inputFieldTitle.text.clear()
         inputFieldDescription.text.clear()
     }
@@ -101,7 +103,7 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
         val inputTitleResult = inputFieldTitle.text.toString()
         val inputDescriptionResult = inputFieldDescription.text.toString()
         item?.let { ToDoItem(it.id, inputTitleResult, inputDescriptionResult) }
-            ?.let { mMainViewModel.updateItem(it) }
+            ?.let { mainViewModel.updateItem(it) }
     }
 
     override fun onStop() {
@@ -110,8 +112,8 @@ class DialogFragment(private val activity: MainActivity, private val isNewItem: 
             //if (!shouldClearPrefs) {
                 val inputTitleResult = inputFieldTitle.text.toString()
                 val inputDescriptionResult = inputFieldDescription.text.toString()
-                mDialogViewModel.saveDataInPrefs("titleKey", inputTitleResult)
-                mDialogViewModel.saveDataInPrefs("descriptionKey", inputDescriptionResult)
+                dialogViewModel.saveDataInPrefs(PREFS_TITLE_KEY, inputTitleResult)
+                dialogViewModel.saveDataInPrefs(PREFS_DESCRIPTION_KEY, inputDescriptionResult)
             //}
         }
     }
