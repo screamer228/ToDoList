@@ -1,23 +1,24 @@
 package com.example.todolist.data
 
-import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
-import com.example.todolist.PrefsManager
+import com.example.todolist.PrefsRepository
 import com.example.todolist.ToDoItem
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PrefsManagerImpl(app : Application) : PrefsManager {
 
-    private val sharedPref : SharedPreferences = app.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+class PrefsRepositoryImpl @Inject constructor(
+    private val sharedPreferences: SharedPreferences)
+    : PrefsRepository {
 
     override fun getToDoItem() : ToDoItem {
-        val title = sharedPref.getString(PREFS_TITLE_KEY, PREFS_DEFAULT_VALUE) ?: PREFS_DEFAULT_VALUE
-        val description = sharedPref.getString(PREFS_DESCRIPTION_KEY, PREFS_DEFAULT_VALUE) ?: PREFS_DEFAULT_VALUE
+        val title = sharedPreferences.getString(PREFS_TITLE_KEY, PREFS_DEFAULT_VALUE) ?: PREFS_DEFAULT_VALUE
+        val description = sharedPreferences.getString(PREFS_DESCRIPTION_KEY, PREFS_DEFAULT_VALUE) ?: PREFS_DEFAULT_VALUE
         return ToDoItem(title, description)
     }
 
     override fun saveDataInPrefs(key: String, value: String) {
-        with(sharedPref.edit()){
+        with(sharedPreferences.edit()){
             putString(key, value)
             apply()
         }

@@ -10,13 +10,17 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.example.todolist.data.PrefsManagerImpl.Companion.PREFS_DESCRIPTION_KEY
-import com.example.todolist.data.PrefsManagerImpl.Companion.PREFS_TITLE_KEY
+import com.example.todolist.data.PrefsRepositoryImpl.Companion.PREFS_DESCRIPTION_KEY
+import com.example.todolist.data.PrefsRepositoryImpl.Companion.PREFS_TITLE_KEY
+import com.example.todolist.viewModels.DialogFragmentViewModel
+import com.example.todolist.viewModels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DialogFragment(private val isNewItem: Boolean, private val item: ToDoItem?) : DialogFragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val dialogViewModel: DialogViewModel by activityViewModels()
+    private val dialogFragmentViewModel: DialogFragmentViewModel by activityViewModels()
 
     private var shouldClearPrefs = false
 
@@ -38,7 +42,7 @@ class DialogFragment(private val isNewItem: Boolean, private val item: ToDoItem?
         clickListeners()
 
         if (isNewItem) {
-            dialogViewModel.getToDoItemFromPrefs()
+            dialogFragmentViewModel.getToDoItemFromPrefs()
         } else {
             dialogTitle.text = "Редактировать"
             inputFieldTitle.setText(item?.title)
@@ -70,7 +74,7 @@ class DialogFragment(private val isNewItem: Boolean, private val item: ToDoItem?
     }
 
     private fun observers() {
-        dialogViewModel.todoItemResult.observe(this, Observer {
+        dialogFragmentViewModel.todoItemResult.observe(this, Observer {
             if (isNewItem) {
                 //if (!shouldClearPrefs) {
                 inputFieldTitle.setText(it.title)
@@ -112,8 +116,8 @@ class DialogFragment(private val isNewItem: Boolean, private val item: ToDoItem?
             //if (!shouldClearPrefs) {
                 val inputTitleResult = inputFieldTitle.text.toString()
                 val inputDescriptionResult = inputFieldDescription.text.toString()
-                dialogViewModel.saveDataInPrefs(PREFS_TITLE_KEY, inputTitleResult)
-                dialogViewModel.saveDataInPrefs(PREFS_DESCRIPTION_KEY, inputDescriptionResult)
+                dialogFragmentViewModel.saveDataInPrefs(PREFS_TITLE_KEY, inputTitleResult)
+                dialogFragmentViewModel.saveDataInPrefs(PREFS_DESCRIPTION_KEY, inputDescriptionResult)
             //}
         }
     }
