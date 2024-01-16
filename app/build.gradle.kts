@@ -61,8 +61,8 @@ dependencies {
     //livedata
     implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
     //hilt
-    implementation ("com.google.dagger:hilt-android:2.49")
-    kapt ("com.google.dagger:hilt-compiler:2.49")
+    implementation ("com.google.dagger:hilt-android:2.50")
+    kapt ("com.google.dagger:hilt-compiler:2.50")
     kapt ("androidx.hilt:hilt-compiler:1.1.0")
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
