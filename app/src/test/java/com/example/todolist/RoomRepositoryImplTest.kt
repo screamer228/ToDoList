@@ -1,6 +1,5 @@
 package com.example.todolist
 
-import android.app.Application
 import com.example.todolist.data.RoomRepositoryImpl
 import com.example.todolist.room.ToDoDao
 import org.junit.Before
@@ -22,5 +21,4 @@ class RoomRepositoryImplTest {
     fun getAllItems_success() : List<ToDoItem> {
         return subject.getAllItems()
     }
-
 }

@@ -23,13 +23,13 @@
             android:id="@+id/item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Заголовок"
-            android:textSize="30sp"/>
+            android:text="@string/item_title"
+            android:textSize="28sp"/>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Описание"
+            android:text="@string/item_description"
             android:textSize="20sp"/>
     </LinearLayout>
 

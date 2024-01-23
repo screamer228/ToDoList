@@ -7,7 +7,6 @@ import com.example.todolist.RoomRepository
 import com.example.todolist.ToDoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import com.example.todolist.di.DataModule
 
 @HiltViewModel
 class MainViewModel @Inject constructor(

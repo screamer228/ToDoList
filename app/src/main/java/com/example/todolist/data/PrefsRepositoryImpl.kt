@@ -4,8 +4,6 @@ import android.content.SharedPreferences
 import com.example.todolist.PrefsRepository
 import com.example.todolist.ToDoItem
 import javax.inject.Inject
-import javax.inject.Singleton
-
 
 class PrefsRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences)

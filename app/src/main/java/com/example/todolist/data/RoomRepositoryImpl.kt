@@ -4,8 +4,6 @@ import com.example.todolist.RoomRepository
 import com.example.todolist.ToDoItem
 import com.example.todolist.room.ToDoDao
 import javax.inject.Inject
-import javax.inject.Singleton
-
 
 class RoomRepositoryImpl @Inject constructor(
     private val toDoDao: ToDoDao)

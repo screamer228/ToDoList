@@ -2,7 +2,6 @@ package com.example.todolist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.todolist.viewModels.MainViewModel
-import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule

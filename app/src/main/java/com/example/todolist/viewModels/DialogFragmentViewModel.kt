@@ -23,5 +23,4 @@ class DialogFragmentViewModel @Inject constructor(
     fun saveDataInPrefs(key: String, value: String) {
         prefsRepository.saveDataInPrefs(key, value)
     }
-
 }

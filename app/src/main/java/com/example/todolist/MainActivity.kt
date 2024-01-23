@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         dialogFragment.show(supportFragmentManager, "Dialog Fragment")
     }
 
+    //логика удаления элемента из списка
     private fun swipeImplementation() {
         val deleteIcon = ContextCompat.getDrawable(this, R.drawable.swipe_remove_icon)
         val intrinsicWidth = deleteIcon?.intrinsicWidth
