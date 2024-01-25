@@ -45,7 +45,7 @@ class DialogFragment(private val isNewItem: Boolean, private val item: ToDoItem?
         if (isNewItem) {
             dialogFragmentViewModel.getToDoItemFromPrefs()
         } else {
-            dialogTitle.text = "Редактировать"
+            dialogTitle.text = "Edit"
             inputFieldTitle.setText(item?.title)
             inputFieldDescription.setText(item?.description)
         }
@@ -110,6 +110,7 @@ class DialogFragment(private val isNewItem: Boolean, private val item: ToDoItem?
         item?.let { ToDoItem(it.id, inputTitleResult, inputDescriptionResult) }
             ?.let { mainViewModel.updateItem(it) }
     }
+
 
     override fun onStop() {
         super.onStop()

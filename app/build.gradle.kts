@@ -45,19 +45,19 @@ android {
 }
 
 dependencies {
+
+    //coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     //androidx
     implementation ("androidx.activity:activity-ktx:1.8.2")
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
     //room
     implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     //recycler
     implementation ("androidx.recyclerview:recyclerview:1.3.2")
-
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
     //livedata
     implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
     //hilt
@@ -65,12 +65,14 @@ dependencies {
     kapt ("com.google.dagger:hilt-compiler:2.50")
     kapt ("androidx.hilt:hilt-compiler:1.1.0")
 
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
-
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
+    //testing
     implementation("org.mockito:mockito-core:5.8.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.arch.core:core-testing:2.2.0")

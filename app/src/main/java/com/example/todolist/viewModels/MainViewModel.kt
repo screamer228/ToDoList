@@ -17,20 +17,24 @@ class MainViewModel @Inject constructor(
     private var todoItemList : MutableLiveData<List<ToDoItem>> = MutableLiveData()
     val todoItemListResult : LiveData<List<ToDoItem>> = todoItemList
 
-    fun getAllData() {
+    fun getAllData(callback :() -> Unit ) {
         val result = roomRepository.getAllItems()
         todoItemList.postValue(result)
+        callback()
     }
+
     fun insertItem(item: ToDoItem) {
         roomRepository.insertItem(item)
-        getAllData()
+        getAllData {}
     }
+
     fun updateItem(item: ToDoItem) {
         roomRepository.updateItem(item)
-        getAllData()
+        getAllData{}
     }
+
     fun deleteItem(item: ToDoItem) {
         roomRepository.deleteItem(item)
-        getAllData()
+        getAllData{}
     }
 }

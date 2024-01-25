@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
         setContentView(R.layout.activity_main)
 
         initViews()
+
         swipeImplementation()
+
         observers()
 
         fab.setOnClickListener {
@@ -45,7 +47,9 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
             dialogFragment.show(supportFragmentManager, "Dialog Fragment")
         }
 
-        mainViewModel.getAllData()
+        mainViewModel.getAllData{
+
+        }
     }
 
     private fun initViews(){
