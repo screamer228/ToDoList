@@ -1,12 +1,13 @@
 package com.example.todolist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.todolist.model.ToDoItem
+import com.example.todolist.repository.PrefsRepository
 import com.example.todolist.viewModels.DialogFragmentViewModel
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
@@ -40,7 +41,6 @@ class DialogFragmentViewModelTest {
 
     @Test
     fun saveDataInPrefs_success() {
-
         subject.saveDataInPrefs(keyTestResult, valueTestValue)
         verify(prefsRepository).saveDataInPrefs(keyTestResult, valueTestValue)
     }

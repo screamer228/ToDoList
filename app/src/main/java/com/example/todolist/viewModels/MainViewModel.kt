@@ -3,14 +3,15 @@ package com.example.todolist.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.todolist.RoomRepository
-import com.example.todolist.ToDoItem
+import com.example.todolist.repository.RoomRepository
+import com.example.todolist.model.ToDoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val roomRepository: RoomRepository)
+    private val roomRepository: RoomRepository
+)
     : ViewModel() {
 
     private var todoItemList : MutableLiveData<List<ToDoItem>> = MutableLiveData()

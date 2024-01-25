@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.example.todolist.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.todolist.OnItemClicked
+import com.example.todolist.R
+import com.example.todolist.model.ToDoItem
 
 class MyAdapter(private var mList: MutableList<ToDoItem>, private val click: OnItemClicked) :
     RecyclerView.Adapter<MyAdapter.ViewHolder>() {

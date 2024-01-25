@@ -3,11 +3,11 @@ package com.example.todolist.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.example.todolist.PrefsRepository
-import com.example.todolist.RoomRepository
-import com.example.todolist.data.PrefsRepositoryImpl
-import com.example.todolist.data.RoomRepositoryImpl
-import com.example.todolist.data.RoomRepositoryImpl.Companion.DATABASE_NAME
+import com.example.todolist.repository.PrefsRepository
+import com.example.todolist.repository.RoomRepository
+import com.example.todolist.repository.PrefsRepositoryImpl
+import com.example.todolist.repository.RoomRepositoryImpl
+import com.example.todolist.repository.RoomRepositoryImpl.Companion.DATABASE_NAME
 import com.example.todolist.room.AppDatabase
 import com.example.todolist.room.ToDoDao
 import dagger.Module

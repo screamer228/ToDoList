@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.todolist.ToDoItem
+import com.example.todolist.model.ToDoItem
 
 @Dao
 interface ToDoDao {

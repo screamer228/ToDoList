@@ -1,8 +1,7 @@
-package com.example.todolist.data
+package com.example.todolist.repository
 
 import android.content.SharedPreferences
-import com.example.todolist.PrefsRepository
-import com.example.todolist.ToDoItem
+import com.example.todolist.model.ToDoItem
 import javax.inject.Inject
 
 class PrefsRepositoryImpl @Inject constructor(

@@ -1,7 +1,6 @@
-package com.example.todolist.data
+package com.example.todolist.repository
 
-import com.example.todolist.RoomRepository
-import com.example.todolist.ToDoItem
+import com.example.todolist.model.ToDoItem
 import com.example.todolist.room.ToDoDao
 import javax.inject.Inject
 

@@ -3,14 +3,15 @@ package com.example.todolist.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.todolist.PrefsRepository
-import com.example.todolist.ToDoItem
+import com.example.todolist.repository.PrefsRepository
+import com.example.todolist.model.ToDoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class DialogFragmentViewModel @Inject constructor(
-    private val prefsRepository: PrefsRepository)
+    private val prefsRepository: PrefsRepository
+)
     : ViewModel() {
 
     private val todoItem : MutableLiveData<ToDoItem> = MutableLiveData()

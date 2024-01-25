@@ -1,10 +1,10 @@
 package com.example.todolist
 
 import android.content.SharedPreferences
-import com.example.todolist.data.PrefsRepositoryImpl
+import com.example.todolist.model.ToDoItem
+import com.example.todolist.repository.PrefsRepositoryImpl
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 import org.mockito.Mockito.mock
 
 class PrefsRepositoryImplTest {

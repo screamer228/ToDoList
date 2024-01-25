@@ -1,13 +1,12 @@
 <resources>
     <string name="app_name">ToDoList</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="undo">Вернуть</string>
+    <string name="undo">Undo</string>
     <string name="plug_message">Nothing to do</string>
-    <string name="add_item">add_item</string>
-    <string name="add_item_title">Добавить</string>
-    <string name="item_title">Заголовок</string>
-    <string name="item_description">Описание</string>
+    <string name="add_item_button">add_item_button</string>
+    <string name="add_item_title">Add</string>
+    <string name="edit_item_title">Edit</string>
+    <string name="item_title">Title</string>
+    <string name="item_description">Description</string>
     <string name="ok_button">OK</string>
     <string name="close_button">CLOSE</string>
 </resources>
