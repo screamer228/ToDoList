@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
                 //data.toMutableList().removeAt(position)
                 //adapter.notifyItemRemoved(position)
 
-                Snackbar.make(recyclerView, "Удалено " + deletedItem.title, Snackbar.LENGTH_LONG)
+                Snackbar.make(recyclerView, "Deleted " + deletedItem.title, Snackbar.LENGTH_LONG)
                     .setAction(getString(R.string.undo), View.OnClickListener {
                         adapter.restoreItem(position, deletedItem)
                         //data.toMutableList().add(position, deletedItem)

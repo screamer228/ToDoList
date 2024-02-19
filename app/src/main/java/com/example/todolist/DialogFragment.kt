@@ -45,7 +45,7 @@ class DialogFragment(private val isNewItem: Boolean, private val item: ToDoItem?
         if (isNewItem) {
             dialogFragmentViewModel.getToDoItemFromPrefs()
         } else {
-            dialogTitle.text = "Edit"
+            dialogTitle.text = getString(R.string.edit_item_title)
             inputFieldTitle.setText(item?.title)
             inputFieldDescription.setText(item?.description)
         }
