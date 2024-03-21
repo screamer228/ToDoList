@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.example.todolist.presentation
 
 import android.graphics.Canvas
 import android.graphics.Color
@@ -14,9 +14,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todolist.adapters.MyAdapter
+import com.example.todolist.OnItemClicked
+import com.example.todolist.R
+import com.example.todolist.presentation.adapters.MyAdapter
 import com.example.todolist.model.ToDoItem
-import com.example.todolist.viewModels.MainViewModel
+import com.example.todolist.presentation.viewModels.MainViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint

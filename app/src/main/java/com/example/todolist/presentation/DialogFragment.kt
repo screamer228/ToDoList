@@ -1,4 +1,4 @@
-package com.example.todolist
+package com.example.todolist.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,11 +10,12 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.example.todolist.R
 import com.example.todolist.model.ToDoItem
-import com.example.todolist.repository.PrefsRepositoryImpl.Companion.PREFS_DESCRIPTION_KEY
-import com.example.todolist.repository.PrefsRepositoryImpl.Companion.PREFS_TITLE_KEY
-import com.example.todolist.viewModels.DialogFragmentViewModel
-import com.example.todolist.viewModels.MainViewModel
+import com.example.todolist.data.repository.PrefsRepositoryImpl.Companion.PREFS_DESCRIPTION_KEY
+import com.example.todolist.data.repository.PrefsRepositoryImpl.Companion.PREFS_TITLE_KEY
+import com.example.todolist.presentation.viewModels.DialogFragmentViewModel
+import com.example.todolist.presentation.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.example.todolist.repository
+package com.example.todolist.data.repository
 
 import com.example.todolist.model.ToDoItem
 

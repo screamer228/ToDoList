@@ -1,8 +1,8 @@
 package com.example.todolist
 
 import com.example.todolist.model.ToDoItem
-import com.example.todolist.repository.RoomRepositoryImpl
-import com.example.todolist.room.ToDoDao
+import com.example.todolist.data.repository.RoomRepositoryImpl
+import com.example.todolist.data.room.ToDoDao
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock

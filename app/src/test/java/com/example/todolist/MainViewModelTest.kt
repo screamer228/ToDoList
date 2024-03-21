@@ -2,8 +2,8 @@ package com.example.todolist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.todolist.model.ToDoItem
-import com.example.todolist.repository.RoomRepository
-import com.example.todolist.viewModels.MainViewModel
+import com.example.todolist.data.repository.RoomRepository
+import com.example.todolist.presentation.viewModels.MainViewModel
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule

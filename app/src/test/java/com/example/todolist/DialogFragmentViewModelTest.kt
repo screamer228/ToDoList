@@ -2,8 +2,8 @@ package com.example.todolist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.todolist.model.ToDoItem
-import com.example.todolist.repository.PrefsRepository
-import com.example.todolist.viewModels.DialogFragmentViewModel
+import com.example.todolist.data.repository.PrefsRepository
+import com.example.todolist.presentation.viewModels.DialogFragmentViewModel
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule

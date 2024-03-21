@@ -1,4 +1,4 @@
-package com.example.todolist.adapters
+package com.example.todolist.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View

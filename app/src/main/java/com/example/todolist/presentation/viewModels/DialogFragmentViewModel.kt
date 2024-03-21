@@ -1,9 +1,9 @@
-package com.example.todolist.viewModels
+package com.example.todolist.presentation.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.todolist.repository.PrefsRepository
+import com.example.todolist.data.repository.PrefsRepository
 import com.example.todolist.model.ToDoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
