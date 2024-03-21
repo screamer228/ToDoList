@@ -34,7 +34,7 @@ class MainViewModelTest {
         Mockito.`when`(roomRepository.getAllItems()).thenReturn(mockList)
         subject.getAllData()
         val expected = 2
-        val actual = subject.todoItemListResult.value?.size
+        val actual = subject.todoItemList.value?.size
         assertEquals(expected, actual)
     }
 }

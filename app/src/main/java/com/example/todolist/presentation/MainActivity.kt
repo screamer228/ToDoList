@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), OnItemClicked {
 
-    private val mainViewModel : MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var fab: FloatingActionButton
@@ -49,12 +49,10 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
             dialogFragment.show(supportFragmentManager, "Dialog Fragment")
         }
 
-        mainViewModel.getAllData{
-
-        }
+        mainViewModel.getAllData()
     }
 
-    private fun initViews(){
+    private fun initViews() {
         recyclerView = findViewById(R.id.main_recycler_view)
         fab = findViewById(R.id.main_fab)
         plug = findViewById(R.id.main_plug)
@@ -65,7 +63,7 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
     }
 
     private fun observers() {
-        mainViewModel.todoItemListResult.observe(this, Observer {
+        mainViewModel.todoItemList.observe(this, Observer {
             data = it
             adapter.updateList(it)
             screenDataValidation(it)
@@ -73,15 +71,14 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
     }
 
     private fun screenDataValidation(list: List<ToDoItem>) {
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             setupPlug(showPlug = true, showRecycler = false)
-        }
-        else {
+        } else {
             setupPlug(showPlug = false, showRecycler = true)
         }
     }
 
-    private fun setupPlug(showPlug: Boolean, showRecycler: Boolean){
+    private fun setupPlug(showPlug: Boolean, showRecycler: Boolean) {
         plug.isVisible = showPlug
         recyclerView.isVisible = showRecycler
     }
@@ -152,16 +149,10 @@ class MainActivity : AppCompatActivity(), OnItemClicked {
 
                 adapter.deleteItem(position)
 
-                //data.toMutableList().removeAt(position)
-                //adapter.notifyItemRemoved(position)
-
                 Snackbar.make(recyclerView, "Deleted " + deletedItem.title, Snackbar.LENGTH_LONG)
                     .setAction(getString(R.string.undo), View.OnClickListener {
                         adapter.restoreItem(position, deletedItem)
-                        //data.toMutableList().add(position, deletedItem)
                         mainViewModel.insertItem(deletedItem)
-                        //adapter.notifyItemInserted(position)
-
                     }).show()
                 mainViewModel.deleteItem(deletedItem)
             }

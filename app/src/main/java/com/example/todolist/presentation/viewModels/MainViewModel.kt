@@ -11,30 +11,28 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val roomRepository: RoomRepository
-)
-    : ViewModel() {
+) : ViewModel() {
 
-    private var todoItemList : MutableLiveData<List<ToDoItem>> = MutableLiveData()
-    val todoItemListResult : LiveData<List<ToDoItem>> = todoItemList
+    private var _todoItemList: MutableLiveData<List<ToDoItem>> = MutableLiveData()
+    val todoItemList: LiveData<List<ToDoItem>> = _todoItemList
 
-    fun getAllData(callback :() -> Unit ) {
+    fun getAllData() {
         val result = roomRepository.getAllItems()
-        todoItemList.postValue(result)
-        callback()
+        _todoItemList.postValue(result)
     }
 
     fun insertItem(item: ToDoItem) {
         roomRepository.insertItem(item)
-        getAllData {}
+        getAllData()
     }
 
     fun updateItem(item: ToDoItem) {
         roomRepository.updateItem(item)
-        getAllData{}
+        getAllData()
     }
 
     fun deleteItem(item: ToDoItem) {
         roomRepository.deleteItem(item)
-        getAllData{}
+//        getAllData()
     }
 }
